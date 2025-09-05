@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { AppProvider } from './context/AppContext';
-import Header from './components/Common/Header';
 import Navigation from './components/Common/Navigation';
 import LoadingSpinner from './components/Common/LoadingSpinner';
 import ErrorAlert from './components/Common/ErrorAlert';
-import DashboardView from './components/Dashboard/DashboardView';
+import DashboardView from './components/Dashboard/DashboardView.js';
 import { useAppContext } from './context/AppContext';
 import './App.css';
 
@@ -66,37 +65,25 @@ const MainContent = () => {
   };
 
   return (
-    <div className="app">
-      <Header />
+    <div className="app min-vh-100 d-flex flex-column">
+      {/* Navigation */}
+      <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
       
-      <main className="main-content">
+      <main className="flex-grow-1">
         {/* Error Display */}
         {error && (
-          <ErrorAlert 
-            message={error} 
-            onClose={clearError}
-          />
+          <div className="position-fixed top-0 start-50 translate-middle-x" style={{ zIndex: 9999, marginTop: '100px' }}>
+            <ErrorAlert 
+              message={error} 
+              onClose={clearError}
+            />
+          </div>
         )}
-        
-        {/* Navigation */}
-        <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
         
         {/* Main Content */}
         <div className="content-area">
           {renderContent()}
         </div>
-        
-        {/* Footer */}
-        <footer className="footer">
-          <div className="footer-content">
-            <h6>🏥 MediSys Diagnostics Ltd.</h6>
-            <p>
-              Real-time Patient Monitoring Dashboard System
-              <span> • </span>
-              <span className="system-status">System Online</span>
-            </p>
-          </div>
-        </footer>
       </main>
     </div>
   );
